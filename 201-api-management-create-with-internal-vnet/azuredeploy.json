@@ -22,14 +22,14 @@
         "Developer",
         "Premium"
       ],
-      "defaultValue": "Developer",
+      "defaultValue": "Premium",
       "metadata": {
         "description": "The pricing tier of this API Management service"
       }
     },
     "skuCount": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 2,
       "metadata": {
         "description": "The instance size of this API Management service."
       }
@@ -84,6 +84,16 @@
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "Azure Region where the resources will be deployed"
+      }
+    },
+    "availabilityZones": {
+      "type": "array",
+      "defaultValue": [
+        "1",
+        "2"
+      ],
+      "metadata": {
+        "description": "Zone numbers e.g. 1,2,3."
       }
     }
   },
@@ -395,6 +405,7 @@
         "name": "[parameters('sku')]",
         "capacity": "[parameters('skuCount')]"
       },
+      "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
       "properties": {
         "publisherEmail": "[parameters('publisherEmail')]",
         "publisherName": "[parameters('publisherName')]",
